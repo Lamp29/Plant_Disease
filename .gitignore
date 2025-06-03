@@ -1,0 +1,29 @@
+
+# === Python ===
+__pycache__/
+*.py[cod]
+*.tflite
+*.h5
+*.pb
+*.weights
+*.ckpt
+*.log
+
+# Virtual Environments
+backend/myenv/
+
+# === Node.js / React ===
+node_modules/
+frontend/node_modules/
+frontend/build/
+
+# === VS Code ===
+.vscode/
+
+# === Environment Files ===
+.env
+
+# === OS / Misc ===
+.DS_Store
+Thumbs.db
+
