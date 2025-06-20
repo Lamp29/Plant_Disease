@@ -1,14 +1,14 @@
 import streamlit as st
-import tensorflow as tf
 import numpy as np
 from PIL import Image
+from tflite_runtime.interpreter import Interpreter
 
 st.title("🌿 Plant Disease Detection")
 
 # Load TFLite model once with caching
 @st.cache_resource
 def load_model():
-    interpreter = tf.lite.Interpreter(model_path="./quantized_model.tflite")
+    interpreter = Interpreter(model_path="./quantized_model.tflite")
     interpreter.allocate_tensors()
     return interpreter
 
