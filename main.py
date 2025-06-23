@@ -1,7 +1,7 @@
 import streamlit as st
 import numpy as np
 from PIL import Image
-from tflite_runtime.interpreter import Interpreter
+from tensorflow.lite import Interpreter  # ✅ use tensorflow, not tflite_runtime
 
 st.title("🌿 Plant Disease Detection")
 
@@ -16,7 +16,7 @@ interpreter = load_model()
 input_details = interpreter.get_input_details()
 output_details = interpreter.get_output_details()
 
-# Load class names (make sure this file matches your backend class_names.txt)
+# Load class names
 with open("./class_names.txt", "r") as f:
     class_names = [line.strip() for line in f if line.strip()]
 
@@ -51,19 +51,19 @@ if uploaded_file:
         if output_scale > 0:
             output_data = output_scale * (output_data.astype(np.float32) - output_zero_point)
 
-        # DEBUG: show top 5 predictions with index, class name, and confidence
+        # DEBUG: show top 5 predictions
         top5_idx = np.argsort(output_data)[-5:][::-1]
         st.write("### Top 5 predictions:")
         for idx in top5_idx:
             st.write(f"{class_names[idx]} — {output_data[idx]:.4f}")
 
-        # Predict class and confidence
+        # Final prediction
         prediction_idx = int(np.argmax(output_data))
         predicted_class = class_names[prediction_idx]
         confidence = output_data[prediction_idx] * 100
 
         st.success(f"🧪 Predicted: **{predicted_class}** with **{confidence:.2f}%** confidence")
 
+        # Optional debug info
         st.write(f"Output tensor shape: {output_data.shape}")
         st.write(f"Length of class_names list: {len(class_names)}")
-
